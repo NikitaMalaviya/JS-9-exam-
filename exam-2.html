@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>orderlist using DOM</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <th style="border: 1px solid black;">Product Name</th>
+            <th style="border: 1px solid black;">Product description</th>
+            <th style="border: 1px solid black;">Price</th>
+        </thead>
+        <tbody id="tablebody"></tbody>
+    </table>
+    <br><br><br><br>
+    <input type="text" name="pname" placeholder="name" id="pname">
+    <input type="text" name="pdesc" placeholder="description" id="pdesc">
+    <input type="text" name="price" placeholder="price" id="price">
+    <button onclick="save()">Save</button>
+
+    <script>
+        const productlist = JSON.parse(localStorage.getItem("productlist")) || [];
+        const tbody = document.getElementById("tablebody");
+
+        function save(){
+            const pname = document.getElementById("pname").value;
+            const pdesc = document.getElementById("pdesc").value;
+            const price = document.getElementById("price").value;
+
+            const data = {
+                pname,
+                pdesc,
+                price,
+            }
+            productlist.push(data);
+            localStorage.setItem("productlist",JSON.stringify(productlist));
+
+            loadproduct(data);
+        };
+
+        productlist.forEach((e , ind) => loadproduct(e, ind));
+
+        function loadproduct(e, ind){
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td style="border: 1px solid black;">${e.pname}</td>
+                            <td style="border: 1px solid black;">${e.pdesc}</td>
+                            <td style="border: 1px solid black;">${e.price}</td>`
+           
+            tbody.appendChild(tr);
+        }
+
+    </script>
+</body>
+</html>
